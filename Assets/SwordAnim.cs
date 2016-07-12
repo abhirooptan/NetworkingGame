@@ -4,6 +4,12 @@ using System.Collections;
 public class SwordAnim : StateMachineBehaviour {
 
     private GameObject weapon;
+    Animator anim;
+
+    void Start()
+    {
+            
+    }
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -20,6 +26,11 @@ public class SwordAnim : StateMachineBehaviour {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         weapon.GetComponent<MeshCollider>().enabled = false;
+        animator.SetBool("Attack1Bool", false);
+        animator.SetBool("Attack2Bool", false);
+        animator.SetBool("Attack3Bool", false);
+        animator.SetBool("Attack4Bool", false);
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

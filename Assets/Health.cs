@@ -13,6 +13,7 @@ public class Health : NetworkBehaviour
     public int currentHealth = maxHealth;
 
     public RectTransform healthBar;
+    public GameObject playerDeathEffect;
 
     private NetworkStartPosition[] spawnPoints;
 
@@ -32,6 +33,10 @@ public class Health : NetworkBehaviour
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            Vector3 positionToSpawnPlayerDeath = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            var deathEffect = Instantiate(playerDeathEffect, positionToSpawnPlayerDeath, transform.rotation);
+            Destroy(deathEffect, 1.0f);
+
             if (destroyOnDeath)
             {
                 Destroy(gameObject);

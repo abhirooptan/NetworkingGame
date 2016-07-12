@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace WarriorBundle2FREE{ //MODIFY
+namespace WarriorBundle1FREE{ //MODIFY
 
     [System.Serializable]
     public class ReviewConfig : ScriptableObject{

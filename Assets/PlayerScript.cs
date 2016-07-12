@@ -8,7 +8,7 @@ public class PlayerScript : NetworkBehaviour
     public Animator animator;
     public GameObject weapon;
 
-    float rotationSpeed = 1.0f;
+    float rotationSpeed = 2.0f;
 
     Vector3 inputVec;
     Vector3 targetDirection;
@@ -27,7 +27,7 @@ public class PlayerScript : NetworkBehaviour
         { //if I am the owner of this prefab
             SmoothFollow script = Camera.main.GetComponent<SmoothFollow>();
             script.setTarget(transform);
-        }
+        } 
     }
 
     void Update()
@@ -59,9 +59,10 @@ public class PlayerScript : NetworkBehaviour
             animator.SetBool("Running", false);
         }
 
-        if (Input.GetButtonDown("Fire1") || Input.GetKey(KeyCode.V))
+        if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.V))
         {
-            GetComponent<NetworkAnimator>().SetTrigger("Attack1Trigger");
+            animator.SetBool("Attack1Bool", true);
+            //GetComponent<NetworkAnimator>().SetTrigger("Attack1Trigger");
             //animator.Play(attack1.ToString());
             if (warrior == Warrior.Brute)
                 StartCoroutine(COStunPause(1.2f));
@@ -71,21 +72,24 @@ public class PlayerScript : NetworkBehaviour
                 StartCoroutine(COStunPause(.6f));
         }
 
-        else if (Input.GetKey(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.B))
         {
             //animator.Play(attack2.ToString());
-            GetComponent<NetworkAnimator>().SetTrigger("Attack2Trigger");
+            //GetComponent<NetworkAnimator>().SetTrigger("Attack2Trigger");
+            animator.SetBool("Attack2Bool", true);
         }
 
         else if (Input.GetKeyDown(KeyCode.N))
         {
             //animator.Play(attack3.name);
-            GetComponent<NetworkAnimator>().SetTrigger("Attack3Trigger");
+            //GetComponent<NetworkAnimator>().SetTrigger("Attack3Trigger");
+            animator.SetBool("Attack3Bool", true);
         }
 
         else if (Input.GetKeyDown(KeyCode.M))
         {
-            GetComponent<NetworkAnimator>().SetTrigger("Attack4Trigger");
+            //GetComponent<NetworkAnimator>().SetTrigger("Attack4Trigger");
+            animator.SetBool("Attack4Bool", true);
         }
 
         UpdateMovement();  //update character position and facing
@@ -139,31 +143,16 @@ public class PlayerScript : NetworkBehaviour
         GetCameraRelativeMovement();
     }
 
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(25, 85, 100, 30), "Attack1"))
-        {
-            animator.SetTrigger("Attack1Trigger");
-
-            if (warrior == Warrior.Brute || warrior == Warrior.Sorceress)  //if character is Brute or Sorceress
-                StartCoroutine(COStunPause(1.2f));
-            else
-                StartCoroutine(COStunPause(.6f));
-        }
-    }
-
-    //void OnNetworkInstantiate(NetworkMessageInfo info)
+    //void OnGUI()
     //{
-    //    Debug.Log("Inside instantiate");
-    //    //NetworkView nView = GetComponent<NetworkView>();
-    //    NetworkIdentity nIdentity = GetComponent<NetworkIdentity>();
-    //    if (nIdentity.isLocalPlayer)
-    //    { //if I am the owner of this prefab
-    //        Debug.Log("Inside isMine");
-    //        SmoothFollow script = Camera.main.GetComponent<SmoothFollow>();
-    //        if (script != null)
-    //            Debug.Log("Script is accessed");
-    //        script.setTarget(transform);
+    //    if (GUI.Button(new Rect(25, 85, 100, 30), "Attack1"))
+    //    {
+    //        animator.SetTrigger("Attack1Trigger");
+
+    //        if (warrior == Warrior.Brute || warrior == Warrior.Sorceress)  //if character is Brute or Sorceress
+    //            StartCoroutine(COStunPause(1.2f));
+    //        else
+    //            StartCoroutine(COStunPause(.6f));
     //    }
     //}
 }
